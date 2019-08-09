@@ -1,4 +1,4 @@
-const server = require("./api/server.js");
+const server = require("./index.js");
 
 const port = 4001;
 server.listen(port, () =>
