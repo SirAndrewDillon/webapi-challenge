@@ -1,0 +1,28 @@
+{
+  "name": "sprint-challange",
+  "version": "1.0.0",
+  "description": "sprint challange for Lambda",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SirAndrewDillon/webapi-challenge.git"
+  },
+  "keywords": [
+    "api",
+    "javascript",
+    "nodemon",
+    "express"
+  ],
+  "author": "Andrew Dillon",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SirAndrewDillon/webapi-challenge/issues"
+  },
+  "homepage": "https://github.com/SirAndrewDillon/webapi-challenge#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
