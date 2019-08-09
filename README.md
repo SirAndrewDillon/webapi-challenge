@@ -1,6 +1,6 @@
 # Sprint Challenge: Express and Node.js - Home Chores
 
-## Description Andrew Dillon
+## Description Andrew Dillon the 1st
 
 In this challenge, create a web API to manage the following resources: `People` and `Chores`.
 
