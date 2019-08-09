@@ -1,6 +1,9 @@
-const server = require("./index.js");
+const server = require("./server.js");
 
-const port = 4001;
+const cTable = require('console.table');
+
+port = 4001
+
 server.listen(port, () =>
-    console.log(`\n ********** Server is reporting for duty on port ${port} ************* \n`)
+    console.table([`\n ********** Server is reporting for duty on port ${port} ************* \n`])
 );

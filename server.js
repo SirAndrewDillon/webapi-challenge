@@ -1,10 +1,12 @@
 const express = require("express");
-const dillonRouter = require("./router")
+
+const dillonRouter = require("./router");
 
 const server = express();
 
+
 server.use(express.json());
-server.use("/:personId/chores", choresRouter);
+server.use("/:personId/chores", dillonRouter);
 server.use("/", dillonRouter);
 
 server.get("/", (req, res) => {
