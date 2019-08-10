@@ -2,23 +2,23 @@ const express = require("express");
 
 const router = express.Router();
 
-
-
 let choreId = 0;
 
+console.log("Chore ID: ", choreId);
 
 let people = [
-    { id: 1, name: "Master Bretac" },
-    { id: 2, name: "Jack O'Neill" },
-    { id: 3, name: "Marty McFly" },
-    { id: 4, name: "Cpt Jack Sparrow" },
-    { id: 5, name: "Daniel Jackson" }
+    { id: 1, name: "Robert Jordan" },
+    { id: 2, name: "Rand al'Thor" },
+    { id: 3, name: "Mat Cauthon" },
+    { id: 4, name: "Perrin Aybara" },
+    { id: 5, name: "Egwene al'Vere" }
 ];
 
-let chores = []
+let chores = [];
 
 router.get("/", (req, res) => {
-    const completed = req.query.completed
+    const completed = req.query.completed;
+
     !completed
         ? res.status(200).json(chores)
         : res
@@ -29,7 +29,7 @@ router.get("/", (req, res) => {
 });
 
 router.get("/", (req, res) => {
-    const completed = req.query.completed
+    const completed = req.query.completed;
     !completed
         ? res.status(200).json(chores)
         : res
@@ -54,36 +54,32 @@ router.post("/", (req, res) => {
             .status(400)
             .json({ message: "Please provide a user ID and chore description." });
     }
+});
 
-    router.get("/", (req, res) => {
+router.put("/:id", (req, res) => {
+    const { assignedTo, description, notes, completed } = req.body;
 
-    });
-
-    router.put("/", (req, res) => {
-        const { assignedTo, description, notes, completed } = req.body
-        if (assignedTo && description) {
-            chores.map(chore => {
-                if (chore.id == req.params.id) {
-                    console.log("Completed: ", completed);
-                    if (assignedTo) chore.assignedTo = assignedTo;
-                    if (completed) chore.completed = JSON.parse(completed);
-                    if (description) chore.description = description;
-                    if (notes) chore.notes = notes;
-                }
-            });
-            res.status(200).json(chores);
-        } else {
-            res
-                .status(400)
-                .json({ message: "Please provide an assignedTo and description." });
-        }
-    });
-
-    router.delete("/", (req, res) => {
-        chores = chores.filter(chore => chore.id != Number(req.params.id));
+    if (assignedTo && description) {
+        chores.map(chore => {
+            if (chore.id == req.params.id) {
+                console.log("Completed: ", completed);
+                if (assignedTo) chore.assignedTo = assignedTo;
+                if (completed) chore.completed = JSON.parse(completed);
+                if (description) chore.description = description;
+                if (notes) chore.notes = notes;
+            }
+        });
         res.status(200).json(chores);
-    });
+    } else {
+        res
+            .status(400)
+            .json({ message: "Please provide an assignedTo and description." });
+    }
+});
 
+router.delete("/:id", (req, res) => {
+    chores = chores.filter(chore => chore.id != Number(req.params.id));
+    res.status(200).json(chores);
+});
 
-
-    module.exports = router;
+module.exports = router;
