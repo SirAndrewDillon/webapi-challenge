@@ -1,9 +1,9 @@
+require("dotenv").config();
+
+
 const server = require("./server.js");
 
-const cTable = require('console.table');
-
-port = 4001
-
+const port = process.env.PORT || 8000;
 server.listen(port, () =>
-    console.table([`\n ********** Server is reporting for duty on port ${port} ************* \n`])
+    console.log(`\n *** Listening on port ${port} *** \n`)
 );

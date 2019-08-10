@@ -2,61 +2,88 @@ const express = require("express");
 
 const router = express.Router();
 
-const cTable = require('console.table');
 
-let peopleId = 2;
+
+let choreId = 0;
 
 
 let people = [
-    { id: 1, name: "Seymore Buttz" },
-    { id: 2, name: "Justin Time" }
+    { id: 1, name: "Master Bretac" },
+    { id: 2, name: "Jack O'Neill" },
+    { id: 3, name: "Marty McFly" },
+    { id: 4, name: "Cpt Jack Sparrow" },
+    { id: 5, name: "Daniel Jackson" }
 ];
 
-let chores = [
-    {
-        assignedTo: 1,
-        choreId: 1,
-        description: "chores description",
-        notes: "voluntary notes",
-        completed: false
-    },
-    {
-        assignedTo: 1,
-        choreId: 2,
-        description: "Seed description 2",
-        notes: "optional notes 2",
-        completed: true
-    }
-];
+let chores = []
 
-router.get("/:id", (req, res) => {
-    const id = req.params.id - 1;
-    if (people[id]) {
-        console.log("That/'s the spot!");
-        let personChores = chores.filter(chore => chore.assignedTo == id);
-        console.log("Chores: ", personChores);
-        personChores.length > 0
-            ? res.status(200).json(personChores)
-            : res.status(200).json({});
-    } else {
-        console.table("Bad Bad Bad!");
-        res.status(400).json({ message: "These are not the droids you are looking for." });
-    }
+router.get("/", (req, res) => {
+    const completed = req.query.completed
+    !completed
+        ? res.status(200).json(chores)
+        : res
+            .status(200)
+            .json(
+                chores.filter(chore => chore.completed === JSON.parse(completed))
+            );
 });
 
-router.get("/:id/chores", (req, res) => {
-    const id = req.params.id - 1;
-    console.log(people[id]);
+router.get("/", (req, res) => {
+    const completed = req.query.completed
+    !completed
+        ? res.status(200).json(chores)
+        : res
+            .status(200)
+            .json(
+                chores.filter(chore => chore.completed === JSON.parse(completed))
+            );
 });
 
 router.post("/", (req, res) => {
-    chores.push(req.body);
-});
+    const assignedTo = req.body.assignedTo;
+    const chore = req.body;
+    if (assignedTo && chore.description) {
+        chore.completed = chore.completed || false;
+        chore.id = choreId + 1;
+        chore.assignedTo = Number(assignedTo);
+        choreId += 1;
+        chores.push(chore);
+        res.status(200).json(chores);
+    } else {
+        res
+            .status(400)
+            .json({ message: "Please provide a user ID and chore description." });
+    }
 
-router.get("/", (req, res) => { });
+    router.get("/", (req, res) => {
 
-router.put("/", (req, res) => { });
+    });
 
-router.delete("/", (req, res) => { });
+    router.put("/", (req, res) => {
+        const { assignedTo, description, notes, completed } = req.body
+        if (assignedTo && description) {
+            chores.map(chore => {
+                if (chore.id == req.params.id) {
+                    console.log("Completed: ", completed);
+                    if (assignedTo) chore.assignedTo = assignedTo;
+                    if (completed) chore.completed = JSON.parse(completed);
+                    if (description) chore.description = description;
+                    if (notes) chore.notes = notes;
+                }
+            });
+            res.status(200).json(chores);
+        } else {
+            res
+                .status(400)
+                .json({ message: "Please provide an assignedTo and description." });
+        }
+    });
 
-module.exports = router;
+    router.delete("/", (req, res) => {
+        chores = chores.filter(chore => chore.id != Number(req.params.id));
+        res.status(200).json(chores);
+    });
+
+
+
+    module.exports = router;

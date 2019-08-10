@@ -6,11 +6,11 @@ const server = express();
 
 
 server.use(express.json());
-server.use("/:personId/chores", dillonRouter);
+server.use("/chores", dillonRouter);
 server.use("/", dillonRouter);
 
 server.get("/", (req, res) => {
-    res.status(200).json({ message: "local server" });
+    res.status(200).json({ runningOn: process.env.TEST });
 });
 
 module.exports = server;
